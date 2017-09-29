@@ -53,20 +53,25 @@ func simple_marching_squares(tilemap, grass, waterGrass):
 func get_corner_score(tilemap, x, y, grass):
 	var score = 0
 	
-	var cell = tilemap.get_cell(x + 1, y + 1)
-	if cell == grass:
+	var top = tilemap.get_cell(x, y - 1) == grass
+	var bottom = tilemap.get_cell(x, y + 1) == grass
+	var left = tilemap.get_cell(x - 1, y) == grass
+	var right = tilemap.get_cell(x + 1, y) == grass
+	var br = tilemap.get_cell(x + 1, y + 1) == grass
+	var bl = tilemap.get_cell(x - 1, y + 1) == grass
+	var tr = tilemap.get_cell(x + 1, y - 1) == grass
+	var tl = tilemap.get_cell(x - 1, y - 1) == grass
+	
+	if br or right or bottom:
 		score += 1
 	
-	cell = tilemap.get_cell(x - 1, y + 1)
-	if cell == grass:
+	if bl or left or bottom:
 		score += 2
 	
-	cell = tilemap.get_cell(x + 1, y - 1)
-	if cell == grass:
+	if tr or right or top:
 		score += 4
 	
-	cell = tilemap.get_cell(x - 1, y - 1)
-	if cell == grass:
+	if tl or left or top:
 		score += 8
 	
 	return score
