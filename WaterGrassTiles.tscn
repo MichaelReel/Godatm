@@ -496,7 +496,6 @@ trigger = false
 
 [node name="WaterGrass_07" type="Sprite" parent="."]
 
-editor/display_folded = true
 material/material = SubResource( 2 )
 transform/pos = Vector2( 32, 80 )
 texture = ExtResource( 1 )
@@ -677,6 +676,7 @@ trigger = false
 
 [node name="WaterGrass_09" type="Sprite" parent="."]
 
+editor/display_folded = true
 material/material = SubResource( 2 )
 transform/pos = Vector2( 16, 128 )
 texture = ExtResource( 1 )
@@ -686,6 +686,7 @@ region_rect = Rect2( 48, 144, 16, 16 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="WaterGrass_09"]
 
+editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 19 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -704,7 +705,7 @@ polygon = Vector2Array( 4, 0, 16, 0, 16, 12, 12, 16, 0, 16, 0, 4 )
 shape_range = Vector2( 0, 0 )
 trigger = false
 
-[node name="Tree_01" type="Sprite" parent="."]
+[node name="Tree_14" type="Sprite" parent="."]
 
 transform/pos = Vector2( 48, 0 )
 texture = ExtResource( 1 )
@@ -712,7 +713,7 @@ centered = false
 region = true
 region_rect = Rect2( 112, 0, 16, 16 )
 
-[node name="Tree_03" type="Sprite" parent="."]
+[node name="Tree_12" type="Sprite" parent="."]
 
 transform/pos = Vector2( 64, 0 )
 texture = ExtResource( 1 )
@@ -720,7 +721,7 @@ centered = false
 region = true
 region_rect = Rect2( 128, 0, 16, 16 )
 
-[node name="Tree_02" type="Sprite" parent="."]
+[node name="Tree_13" type="Sprite" parent="."]
 
 transform/pos = Vector2( 80, 0 )
 texture = ExtResource( 1 )
@@ -728,7 +729,7 @@ centered = false
 region = true
 region_rect = Rect2( 144, 0, 16, 16 )
 
-[node name="Tree_05" type="Sprite" parent="."]
+[node name="Tree_10" type="Sprite" parent="."]
 
 transform/pos = Vector2( 48, 16 )
 texture = ExtResource( 1 )
@@ -744,7 +745,7 @@ centered = false
 region = true
 region_rect = Rect2( 128, 16, 16, 16 )
 
-[node name="Tree_10" type="Sprite" parent="."]
+[node name="Tree_05" type="Sprite" parent="."]
 
 transform/pos = Vector2( 80, 16 )
 texture = ExtResource( 1 )
@@ -752,7 +753,7 @@ centered = false
 region = true
 region_rect = Rect2( 144, 16, 16, 16 )
 
-[node name="Tree_04" type="Sprite" parent="."]
+[node name="Tree_11" type="Sprite" parent="."]
 
 transform/pos = Vector2( 48, 32 )
 texture = ExtResource( 1 )
@@ -760,7 +761,7 @@ centered = false
 region = true
 region_rect = Rect2( 112, 32, 16, 16 )
 
-[node name="Tree_12" type="Sprite" parent="."]
+[node name="Tree_03" type="Sprite" parent="."]
 
 transform/pos = Vector2( 64, 32 )
 texture = ExtResource( 1 )
@@ -768,7 +769,7 @@ centered = false
 region = true
 region_rect = Rect2( 128, 32, 16, 16 )
 
-[node name="Tree_08" type="Sprite" parent="."]
+[node name="Tree_07" type="Sprite" parent="."]
 
 transform/pos = Vector2( 80, 32 )
 texture = ExtResource( 1 )
@@ -776,7 +777,7 @@ centered = false
 region = true
 region_rect = Rect2( 144, 32, 16, 16 )
 
-[node name="Tree_14" type="Sprite" parent="."]
+[node name="Tree_01" type="Sprite" parent="."]
 
 transform/pos = Vector2( 48, 48 )
 texture = ExtResource( 1 )
@@ -784,7 +785,7 @@ centered = false
 region = true
 region_rect = Rect2( 160, 0, 16, 16 )
 
-[node name="Tree_13" type="Sprite" parent="."]
+[node name="Tree_02" type="Sprite" parent="."]
 
 transform/pos = Vector2( 64, 48 )
 texture = ExtResource( 1 )
@@ -792,7 +793,7 @@ centered = false
 region = true
 region_rect = Rect2( 176, 0, 16, 16 )
 
-[node name="Tree_11" type="Sprite" parent="."]
+[node name="Tree_04" type="Sprite" parent="."]
 
 transform/pos = Vector2( 48, 64 )
 texture = ExtResource( 1 )
@@ -800,7 +801,7 @@ centered = false
 region = true
 region_rect = Rect2( 160, 16, 16, 16 )
 
-[node name="Tree_07" type="Sprite" parent="."]
+[node name="Tree_08" type="Sprite" parent="."]
 
 transform/pos = Vector2( 64, 64 )
 texture = ExtResource( 1 )
@@ -808,7 +809,7 @@ centered = false
 region = true
 region_rect = Rect2( 176, 16, 16, 16 )
 
-[node name="Tree_09" type="Sprite" parent="."]
+[node name="Tree_06" type="Sprite" parent="."]
 
 transform/pos = Vector2( 48, 80 )
 texture = ExtResource( 1 )
@@ -816,7 +817,7 @@ centered = false
 region = true
 region_rect = Rect2( 160, 32, 16, 16 )
 
-[node name="Tree_06" type="Sprite" parent="."]
+[node name="Tree_09" type="Sprite" parent="."]
 
 transform/pos = Vector2( 64, 80 )
 texture = ExtResource( 1 )
