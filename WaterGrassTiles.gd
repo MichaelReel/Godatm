@@ -79,12 +79,8 @@ func simple_marching_squares(tile_map, fill_tile, opposing, fill_group, internal
 		for x in range(grid_start_x, grid_end_x):
 			if fill_tile == tile_map.get_cell(x, y):
 				var score = 0
-				var other_score = 0
 				if internal:
 					score = get_internal_corner_score(tile_map, x, y, fill_group)
-					other_score = boundary_inside_side_score(tile_map, x, y, fill_group)
-					print (score, " - ", other_score)
-					score = other_score
 				else:
 					score = get_corner_score(tile_map, x, y, opposing) 
 				tile_map.set_cell(x, y, fill_group[score])
@@ -118,25 +114,25 @@ func get_corner_score(tile_map, x, y, opposing):
 func get_internal_corner_score(tile_map, x, y, fill_group):
 	var score = 0
 	
-	var tp = 1 if not fill_group.has(tile_map.get_cell(x, y - 1))     else 0
-	var bm = 1 if not fill_group.has(tile_map.get_cell(x, y + 1))     else 0
-	var lt = 1 if not fill_group.has(tile_map.get_cell(x - 1, y))     else 0
-	var rt = 1 if not fill_group.has(tile_map.get_cell(x + 1, y))     else 0
+	var tp = 1 if not fill_group.has(tile_map.get_cell(x,     y - 1)) else 0
+	var bm = 1 if not fill_group.has(tile_map.get_cell(x,     y + 1)) else 0
+	var lt = 1 if not fill_group.has(tile_map.get_cell(x - 1, y    )) else 0
+	var rt = 1 if not fill_group.has(tile_map.get_cell(x + 1, y    )) else 0
 	var br = 1 if not fill_group.has(tile_map.get_cell(x + 1, y + 1)) else 0
 	var bl = 1 if not fill_group.has(tile_map.get_cell(x - 1, y + 1)) else 0
 	var tr = 1 if not fill_group.has(tile_map.get_cell(x + 1, y - 1)) else 0
 	var tl = 1 if not fill_group.has(tile_map.get_cell(x - 1, y - 1)) else 0
 	
-	if br: # (br + rt + bm) >= 3:
+	if (br + rt + bm) >= 1:
 		score += 1
 	
-	if bl: # (bl + lt + bm) >= 3:
+	if (bl + lt + bm) >= 1:
 		score += 2
 	
-	if tr: # (tr + rt + tp) >= 3:
+	if (tr + rt + tp) >= 1:
 		score += 4
 	
-	if tl: # (tl + lt + tp) >= 3:
+	if (tl + lt + tp) >= 1:
 		score += 8
 	
 	return score
@@ -146,102 +142,3 @@ func randomise_grass(tile_map, grass, grasses):
 		for x in range(grid_start_x, grid_end_x):
 			if grass == tile_map.get_cell(x, y):
 				tile_map.set_cell(x, y, grasses[rand_range(0,8)])
-
-
-
-
-
-func boundary_inside_side_score(layer, x, y, edgeTiles):
-	
-	var corner = [0,0,0,0] # 0 top-left, 1 top-right, 2 bottom-left, 3 bottom-right
-	var index = 0
-	
-	var tmpCell = null
-	
-	if (x > 0) :
-		# top-left
-		if (y < grid_end_y - 1):
-			tmpCell = layer.get_cell(x - 1, y + 1)
-			if (!edgeTiles.has(tmpCell)):
-				corner[0] += 1 # tl
-		else:
-			corner[0] += 1 # tl
-		
-		# left
-		tmpCell = layer.get_cell(x - 1, y)
-		if (!edgeTiles.has(tmpCell)):
-			corner[0] += 1 # tl
-			corner[2] += 1 # bl
-		
-		# bottom-left
-		if (y > 0):
-			tmpCell = layer.get_cell(x - 1, y - 1)
-			if (!edgeTiles.has(tmpCell)):
-				corner[2] += 1 # bl
-		else:
-			corner[2] += 1 # bl
-	else:
-		corner[0] +=2 # tl
-		corner[2] +=2 # bl
-	
-	# top
-	if (y < grid_end_y - 1):
-		tmpCell = layer.get_cell(x, y + 1)
-		if (!edgeTiles.has(tmpCell)):
-			corner[0] += 1 # tl
-			corner[1] += 1 # tr
-	else:
-		corner[0] += 1 # tl
-		corner[1] += 1 # tr
-	
-	# bottom
-	if (y > 0):
-		tmpCell = layer.get_cell(x, y - 1)
-		if (!edgeTiles.has(tmpCell)):
-			corner[2] += 1 # bl
-			corner[3] += 1 # br
-	else:
-		corner[2] += 1 # bl
-		corner[3] += 1 # br
-	
-	if (x < grid_end_x - 1):
-		# top-right
-		if (y < grid_end_y - 1):
-			tmpCell = layer.get_cell(x + 1, y + 1)
-			if (!edgeTiles.has(tmpCell)):
-				corner[1] += 1 # tr
-		else:
-			corner[1] += 1 # tr
-		
-		# right
-		tmpCell = layer.get_cell(x + 1, y);
-		if (!edgeTiles.has(tmpCell)):
-			corner[1] += 1 # tr
-			corner[3] += 1 # br
-		
-		# bottom-right
-		if (y > 0):
-			tmpCell = layer.get_cell(x + 1, y - 1)
-			if (!edgeTiles.has(tmpCell)):
-				corner[3] += 1 # br
-		else:
-			corner[3] += 1 # br
-	else:
-		corner[1] += 2 # tr
-		corner[3] += 2 # br
-	
-	# create an index from the corner scores, scores 2 or higher count as matching
-	# because this code is migrated, the corner order is altered, so patch accordingly
-	# The y index is inverted, so take that into account
-	# TODO: fix this mess above so the algoritm is easier to follow
-	
-	index += 1 << 0 if corner[1] >= 1 else 0 # br = tr
-	index += 1 << 1 if corner[0] >= 1 else 0 # bl = tl
-	index += 1 << 2 if corner[3] >= 1 else 0 # tr = br
-	index += 1 << 3 if corner[2] >= 1 else 0 # tl = bl
-	
-	return index
-
-
-
-
