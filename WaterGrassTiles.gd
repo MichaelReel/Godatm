@@ -27,6 +27,7 @@ func _ready():
 	var edgeTool = load("res://MarchingSquares.gd").new(grid_end_x, grid_end_y)
 	
 	var water = tileset.find_tile_by_name("WaterGrass_00")
+	var sand = tileset.find_tile_by_name("SandGrass_00")
 	var grass = tileset.find_tile_by_name("Grass_01")
 	var tree = tileset.find_tile_by_name("Tree_00")
 	var empty = -1
@@ -37,9 +38,17 @@ func _ready():
 	
 	# Index tileset groups
 	
+	var water_sand = []
+	for i in range(16):
+		water_sand.append(tileset.find_tile_by_name("WaterSand_%02d" % i))
+	
 	var water_grass = []
 	for i in range(16):
 		water_grass.append(tileset.find_tile_by_name("WaterGrass_%02d" % i))
+	
+	var sand_grass = []
+	for i in range(16):
+		sand_grass.append(tileset.find_tile_by_name("SandGrass_%02d" % i))
 
 	var tree_edge = []
 	for i in range(16):
@@ -66,7 +75,7 @@ func basic_perlin_fill(tile_maps, grass, water, tree):
 	
 	for y in range(grid_start_y, grid_end_y):
 		for x in range(grid_start_x, grid_end_x):
-			if base.getHash(x, y) >= 0.05:
+			if base.getAggregateHash(x, y, 3) >= 0.05:
 				basemap.set_cell(x, y, water)
 			else:
 				basemap.set_cell(x, y, grass)

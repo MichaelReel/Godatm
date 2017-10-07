@@ -64,6 +64,15 @@ func getFloatHash(x, y, z = 0):
 
 func getHash(x, y):
 	return float(self.getFloatHash(x * self.dx, y * self.dy))
+	
+func getAggregateHash(x, y, n = 1):
+	var total = 0
+	var scale = 1
+	for i in range(n):
+		total += getHash(x * scale, y * scale) * scale
+		scale << 1 
+	
+	return total
 
 func fade(t):
 	return t * t * t * (t * (t * 6 - 15) + 10)

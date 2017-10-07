@@ -18,48 +18,25 @@ func simple_marching_squares(tile_map, fill_tile, opposing, fill_group, internal
 			if fill_tile == tile_map.get_cell(x, y):
 				var score = 0
 				if internal:
-					score = get_internal_corner_score(tile_map, x, y, fill_group)
+					score = get_corner_score(tile_map, x, y, fill_group, internal)
 				else:
-					score = get_corner_score(tile_map, x, y, opposing) 
+					score = get_corner_score(tile_map, x, y, [opposing], internal) 
 				tile_map.set_cell(x, y, fill_group[score])
 
-func get_corner_score(tile_map, x, y, opposing):
+func get_corner_score(tile_map, x, y, fill_group, internal):
 	var score = 0
 	
-	var tp = tile_map.get_cell(x, y - 1) == opposing
-	var bm = tile_map.get_cell(x, y + 1) == opposing
-	var lt = tile_map.get_cell(x - 1, y) == opposing
-	var rt = tile_map.get_cell(x + 1, y) == opposing
-	var br = tile_map.get_cell(x + 1, y + 1) == opposing
-	var bl = tile_map.get_cell(x - 1, y + 1) == opposing
-	var tr = tile_map.get_cell(x + 1, y - 1) == opposing
-	var tl = tile_map.get_cell(x - 1, y - 1) == opposing
+	var match   = 0 if internal else 1
+	var nomatch = 1 if internal else 0
 	
-	if br or rt or bm:
-		score += 1
-	
-	if bl or lt or bm:
-		score += 2
-	
-	if tr or rt or tp:
-		score += 4
-	
-	if tl or lt or tp:
-		score += 8
-	
-	return score
-	
-func get_internal_corner_score(tile_map, x, y, fill_group):
-	var score = 0
-	
-	var tp = 1 if not fill_group.has(tile_map.get_cell(x,     y - 1)) else 0
-	var bm = 1 if not fill_group.has(tile_map.get_cell(x,     y + 1)) else 0
-	var lt = 1 if not fill_group.has(tile_map.get_cell(x - 1, y    )) else 0
-	var rt = 1 if not fill_group.has(tile_map.get_cell(x + 1, y    )) else 0
-	var br = 1 if not fill_group.has(tile_map.get_cell(x + 1, y + 1)) else 0
-	var bl = 1 if not fill_group.has(tile_map.get_cell(x - 1, y + 1)) else 0
-	var tr = 1 if not fill_group.has(tile_map.get_cell(x + 1, y - 1)) else 0
-	var tl = 1 if not fill_group.has(tile_map.get_cell(x - 1, y - 1)) else 0
+	var tp = match if fill_group.has(tile_map.get_cell(x,     y - 1)) else nomatch
+	var bm = match if fill_group.has(tile_map.get_cell(x,     y + 1)) else nomatch
+	var lt = match if fill_group.has(tile_map.get_cell(x - 1, y    )) else nomatch
+	var rt = match if fill_group.has(tile_map.get_cell(x + 1, y    )) else nomatch
+	var br = match if fill_group.has(tile_map.get_cell(x + 1, y + 1)) else nomatch
+	var bl = match if fill_group.has(tile_map.get_cell(x - 1, y + 1)) else nomatch
+	var tr = match if fill_group.has(tile_map.get_cell(x + 1, y - 1)) else nomatch
+	var tl = match if fill_group.has(tile_map.get_cell(x - 1, y - 1)) else nomatch
 	
 	if (br + rt + bm) >= 1:
 		score += 1
