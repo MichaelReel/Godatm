@@ -10,17 +10,12 @@ func _init(width, height):
 	self.grid_end_x = width
 	self.grid_end_y = height
 	
-func simple_marching_squares(tile_map, fill_tile, opposing, fill_group, internal = false):
-	if internal and not fill_group.has(fill_tile):
-		fill_group.append(fill_tile)
+func simple_marching_squares(tile_map, fill_group, opposing_group, internal = false):
 	for y in range(grid_start_y, grid_end_y):
 		for x in range(grid_start_x, grid_end_x):
-			if fill_tile == tile_map.get_cell(x, y):
-				var score = 0
-				if internal:
-					score = get_corner_score(tile_map, x, y, fill_group, internal)
-				else:
-					score = get_corner_score(tile_map, x, y, [opposing], internal) 
+			if fill_group.has(tile_map.get_cell(x, y)):
+				var test_group = fill_group if internal else opposing_group
+				var score = get_corner_score(tile_map, x, y, test_group, internal)
 				tile_map.set_cell(x, y, fill_group[score])
 
 func get_corner_score(tile_map, x, y, fill_group, internal):
