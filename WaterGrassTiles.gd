@@ -48,7 +48,7 @@ func _ready():
 		grasses.append(tileset.find_tile_by_name("Grass_%02d" % i))
 	
 	# Select primary file tiles
-	var water = water_grass[0]
+	var water = water_sand[0]
 	var sand = sand_grass[0]
 	var grass = grasses[0]
 	var tree = tree_edge[0]
@@ -56,30 +56,39 @@ func _ready():
 	
 	print (water, grass, tree, empty)
 	
-	basic_perlin_fill(tile_maps, grass, water, tree)
+	basic_perlin_fill(tile_maps, grass, sand, water, tree)
 	
-	edgeTool.simple_marching_squares(basemap, water_grass, grasses)
+	# edgeTool.simple_marching_squares(basemap, water_grass, grasses)
+	
+	edgeTool.simple_marching_squares(basemap, water_sand, [sand, grass])
+	
+	edgeTool.simple_marching_squares(basemap, sand_grass, [grass])
 	
 	edgeTool.simple_marching_squares(solidmap, tree_edge, [empty], true)
 	
 	randomise_grass(basemap, grass, grasses)
 
-func basic_perlin_fill(tile_maps, grass, water, tree):
+func basic_perlin_fill(tile_maps, grass, sand, water, tree):
 	
 	var basemap = tile_maps[BASE_TILE_MAP]
 	var solidmap = tile_maps[SOLID_TILE_MAP]
 	
 	var perlinRef = load("res://PerlinRef.gd")
-	var base = perlinRef.new(64, 64, 10)
-	var solid = perlinRef.new(64, 64, 5)
+	var base = perlinRef.new(64, 64, 64, 4)
+	var solid = perlinRef.new(64, 64, 64, 7)
 	
 	for y in range(grid_start_y, grid_end_y):
 		for x in range(grid_start_x, grid_end_x):
-			if base.getAggregateHash(x, y, 3) >= 0.05:
+			var b1 = base.getOctaveHash(x, y, 0, 4)
+			var b2 = base.getOctaveHash(x, y, 32, 1)
+			var s1 = solid.getOctaveHash(x, y, 0, 1)
+			if b1 <= 0.25:
 				basemap.set_cell(x, y, water)
+			elif b1 <= 1 && s1 <= 0.06:
+				 basemap.set_cell(x, y, sand)
 			else:
 				basemap.set_cell(x, y, grass)
-				if solid.getHash(x, y) >= 0.05:
+				if s1 >= 0.05:
 					solidmap.set_cell(x, y, tree)
 
 func randomise_grass(tile_map, grass, grasses):

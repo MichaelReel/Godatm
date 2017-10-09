@@ -5,13 +5,15 @@ var min_hash
 var max_hash
 var dx
 var dy
+var dz
 
-func _init(width, height, zoom = 10.0):
+func _init(width = 1, height = 1, depth = 1, zoom = 1):
 	self.p = []
 	self.min_hash = 0.0
 	self.max_hash = 0.0
 	self.dx = float(zoom) / width
 	self.dy = float(zoom) / height
+	self.dz = float(zoom) / depth
 	var permutation = self.getPermutation()
 	for i in range(512):
 	    self.p.append(permutation[i % permutation.size()])
@@ -62,14 +64,14 @@ func getFloatHash(x, y, z = 0):
 					 lerp(grad(self.p[AB+1], x  , y-1, z-1 ),
 						  grad(self.p[BB+1], x-1, y-1, z-1 ), u), v), w);
 
-func getHash(x, y):
-	return float(self.getFloatHash(x * self.dx, y * self.dy))
+func getHash(x, y, z = 0):
+	return float(self.getFloatHash(x * self.dx, y * self.dy, z * self.dz))
 	
-func getAggregateHash(x, y, n = 1):
+func getOctaveHash(x, y, z = 0, n = 1):
 	var total = 0
 	var scale = 1
 	for i in range(n):
-		total += getHash(x * scale, y * scale) * scale
+		total += getHash(x * scale, y * scale, z * scale) * (1.0 / scale)
 		scale << 1 
 	
 	return total
